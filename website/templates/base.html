@@ -1,5 +1,26 @@
 <!DOCTYPE html>
 <html>
+<style>
+    body {
+        /* Linear gradient from top to bottom */
+        background-color: #350053 !important;
+        background: linear-gradient(to bottom, #ab2403, transparent);
+        height: 100%;
+        /* Fallback color in case gradients are not supported */
+        margin: 0;
+        padding: 0;
+
+        /* display: flex; */
+        justify-content: top;
+        /* align-items: center; */
+        /* font-family: Arial, sans-serif; */
+    }
+
+    html {
+        height: 100%;
+
+    }
+</style>
 
 <head>
     <meta charset="utf-8" />
@@ -9,11 +30,12 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
         crossorigin="anonymous" />
 
-    <title>{% block title %}Home{% endblock %}</title>
+    <title>{% block title %}Verseus{% endblock %}</title>
 </head>
 
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <h1 style="color: antiquewhite;margin-right: 10%;">Verseus</h1>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar">
             <span class="navbar-toggler-icon"></span>
         </button>
