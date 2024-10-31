@@ -10,6 +10,10 @@
         <button type="button" class="close" onClick="deleteNote('{{ note.id }}')">
             <span aria-hidden="true">&times;</span>
         </button>
+        &emsp13;
+        <button type="button" class="close" onClick="window.location.href='/notes/{{ note.id }}'">
+            <span aria-hidden="true">&infin;</span>
+        </button>
     </li>
     {% endfor %}
 </ul>
