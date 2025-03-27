@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, flash, jsonify, g, send_from_directory
+from flask import Blueprint, render_template, request, flash, jsonify, g, send_from_directory, redirect, url_for
 from flask_login import login_user, login_required, logout_user, current_user
 from .models import Note
 from . import db
@@ -6,7 +6,7 @@ import json
 
 views = Blueprint('views', __name__)
 
-@views.route('/', methods=['GET', 'POST'])
+@views.route('/', methods=['GET'])
 @login_required
 def home():
     books_of_the_bible = [
@@ -24,19 +24,44 @@ def home():
     "2 Timothy", "Titus", "Philemon", "Hebrews", "James",
     "1 Peter", "2 Peter", "1 John", "2 John", "3 John",
     "Jude", "Revelation"]
+    return render_template("home.html", user=current_user, books=books_of_the_bible)
+
+@views.route('/add-note', methods=['GET', 'POST'])
+@login_required
+def add_note():
+    books_of_the_bible = [
+    "Genesis", "Exodus", "Leviticus", "Numbers", "Deuteronomy",
+    "Joshua", "Judges", "Ruth", "1 Samuel", "2 Samuel",
+    "1 Kings", "2 Kings", "1 Chronicles", "2 Chronicles", "Ezra",
+    "Nehemiah", "Esther", "Job", "Psalms", "Proverbs",
+    "Ecclesiastes", "Song of Solomon", "Isaiah", "Jeremiah", "Lamentations",
+    "Ezekiel", "Daniel", "Hosea", "Joel", "Amos",
+    "Obadiah", "Jonah", "Micah", "Nahum", "Habakkuk",
+    "Zephaniah", "Haggai", "Zechariah", "Malachi",
+    "Matthew", "Mark", "Luke", "John", "Acts",
+    "Romans", "1 Corinthians", "2 Corinthians", "Galatians", "Ephesians",
+    "Philippians", "Colossians", "1 Thessalonians", "2 Thessalonians", "1 Timothy",
+    "2 Timothy", "Titus", "Philemon", "Hebrews", "James",
+    "1 Peter", "2 Peter", "1 John", "2 John", "3 John",
+    "Jude", "Revelation"]
+    
     if request.method == "POST":
         note = request.form.get("note")
         ref = request.form.get("chapter_verse")
-        
-        if len(note)<1:
-            flash('Enter a note', category='error')
+        title = request.form.get("title")
+        # TODO reevaluate this
+        if len(note) < 1:
+            flash('Please enter note content', category='error')
+        elif len(title) < 1:
+            flash('Please enter a title', category='error')
         else:
-            flash('Added note to database', category='success')
-            new_note = Note(data=note, user_id = current_user.id, ref=ref)
+            new_note = Note(data=note, user_id=current_user.id, ref=ref)
             db.session.add(new_note)
             db.session.commit()
-    return render_template("home.html", user=current_user, books=books_of_the_bible)
-
+            flash('Note added successfully!', category='success')
+            return redirect(url_for('views.home'))
+            
+    return render_template("add_note.html", user=current_user, books=books_of_the_bible)
 
 @views.route('/verses/<int:noteID>', methods=['GET','POST'])
 @login_required

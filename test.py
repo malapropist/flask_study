@@ -1,0 +1,5 @@
+a = {"run":{"run_id":"123","transaction_id":"1","stage_name":"druid_0_0","stage":{"weight":100,"type":"shop","shop":{"inventory":{"items":[{"card":{"type":"card","card":{"_name":"Wolf","cooldown":3000,"damage":10,"use":["damage"],"size":1,"cost":2}},"x":4,"y":0},{"card":{"type":"card","card":{"_name":"Bear","cooldown":2000,"damage":10,"shield":10,"use":["damage","shield"],"size":2,"cost":2}},"x":0,"y":0}]}}},"inventory":{"items":[{"card":{"_name":"Bear","cooldown":2000,"damage":10,"shield":10,"use":["damage","shield"],"size":2,"cost":2},"x":2,"y":2}],"height":3,"width":5},"board":{"items":[{"card":{"_name":"Bear","cooldown":2000,"damage":10,"shield":10,"use":["damage","shield"],"size":2,"cost":2},"x":0,"y":1}],"height":3,"width":5},"player_name":"BlueDude","player_health":100,"money":10}}
+b = a["run"]["board"]
+d= b["items"]
+
+print(d)

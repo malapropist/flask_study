@@ -2,13 +2,14 @@
 
 :root {
     --primary-dark: #0a192f;
-    --secondary-dark: #112240;
+    --secondary-dark: #112f40;
     --accent-green: #64ffda;
     --accent-blue: #00b4d8;
-    --text-primary: #ccd6f6;
+    --text-primary: #484e57;
     --text-secondary: #8892b0;
     --danger: #ff6b6b;
     --success: #4caf50;
+    --cream: #ddf7fd;
 }
 
 body {
@@ -103,6 +104,19 @@ body {
     transform: translateY(-2px);
 }
 
+/* Verse Button Specific Styling */
+.btn-outline-primary i.fa {
+    margin-right: 4px;
+}
+
+.btn-outline-primary i.fa-arrow-right {
+    transition: transform 0.3s ease;
+}
+
+.btn-outline-primary:hover i.fa-arrow-right {
+    transform: translateX(4px);
+}
+
 /* Alert Styling */
 .alert {
     border: none;
@@ -171,4 +185,35 @@ a:hover {
 
 ::-webkit-scrollbar-thumb:hover {
     background: var(--accent-green);
+}
+
+/* Note List Styling */
+.note-content {
+    flex: 1;
+    min-width: 0;
+    /* Prevents flex item from overflowing */
+    margin-right: 1rem;
+}
+
+.note-text {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    margin-bottom: 0.25rem;
+}
+
+.note-actions {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.list-group-item {
+    background-color: var(--cream);
+    border-color: rgba(100, 255, 218, 0.1);
+    margin-bottom: 0.5rem;
+    border-radius: 4px !important;
+}
+
+.list-group-item:last-child {
+    margin-bottom: 0;
 }

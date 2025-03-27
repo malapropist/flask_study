@@ -1,38 +1,37 @@
 {% extends "base.html" %}
 {% block title %}Home{% endblock %}
-{% block content
-%}
-<h1 alignment="center">Notes</h1>
-<ul class="list-group list-group-flush" id="notes">
-    {% for note in user.notes %}
-    <li class="list-group-item">
-        {{ note.data }}
-        Ref: {{ note.ref }}
-        <button type="button" class="close" onClick="deleteNote('{{ note.id }}')">
-            <span aria-hidden="true">&times;</span>
-        </button>
-        &emsp13;
-        <button type="button" class="close" onClick="window.location.href='/verses/{{ note.id }}'">
-            <span aria-hidden="true">&infin;</span>
-        </button>
-    </li>
-    {% endfor %}
-</ul>
-<form method="POST">
-    <textarea name="note" id="note" class="form-control"></textarea>
-    <br />
-    <label for="book_dropdown">Reference</label>
-    <select id="book_dropdown" name="books_dd">
-        {% for book in books %}
-        <option value="{{ book }}">{{ book }}</option>
-        {% endfor %}
-    </select>
-    <label for="chapter_verse">Ch/V </label>
-    <input name="chapter_verse"></input>
-    <div alignment="center">
-        <button type="submit" class="btn btn-primary">Add Note</button>
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>Notes</h1>
+    <a href="/add-note" class="btn btn-success">
+        <i class="fa fa-plus"></i> Add New Note
+    </a>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <ul class="list-group list-group-flush" id="notes">
+            {% for note in user.notes %}
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+
+                <div class="note-content">
+                    <div class="note-text">{{ note.data }}</div>
+                    <small class="text-muted">Ref: {{ note.ref }}</small>
+                </div>
+                <div class="note-actions">
+                    <button type="button" class="btn btn-sm btn-outline-danger mr-2"
+                        onClick="deleteNote('{{ note.id }}')">
+                        <i class="fa fa-trash"></i>
+                    </button>
+                    <a href="/verses/{{ note.id }}" class="btn btn-sm btn-outline-primary">
+                        <i class="fa fa-arrow-right"></i>
+                    </a>
+                </div>
+            </li>
+            {% endfor %}
+        </ul>
     </div>
-</form>
+</div>
 {% endblock %}
 
 {% block javascript %}
