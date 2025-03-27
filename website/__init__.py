@@ -1,6 +1,8 @@
+import os
+from os import path
 from flask import Flask, send_from_directory
 from flask_sqlalchemy import SQLAlchemy
-from os import path
+from os.path import join, dirname, realpath
 from flask_login import LoginManager
 
 db = SQLAlchemy()
@@ -8,13 +10,17 @@ DB_NAME = "database.db"
 
 def create_app():
     app = Flask(__name__)
-    app.config['SECRET_KEY'] = 'asdfghjkl'
+    
+    # Generate a secure random key or use environment variable
+    app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', os.urandom(32))
+    
+    # Database configuration
     app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{DB_NAME}'
     db.init_app(app)
 
     @app.route('/favicon.ico')
     def favicon():
-        return send_from_directory(app.static_folder, 'static/android-chrome-512x512.png', mimetype='image/png')
+        return send_from_directory(app.static_folder, 'static/book_logo.png', mimetype='image/png')
 
     from .views import views
     from .auth import auth

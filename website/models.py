@@ -10,6 +10,7 @@ class Note(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     data_blanked = db.Column(db.String(500))
     ref = db.Column(JSON)
+    word_blank_positions = db.Column(JSON)
     
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
