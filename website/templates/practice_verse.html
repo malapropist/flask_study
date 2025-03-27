@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% block title %}Practice Verse{% endblock %}
+
+{% block content %}
+<div class="practice-container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h3><i class="fa fa-book"></i> Practice Verse</h3>
+                </div>
+                <div class="card-body">
+                    <div class="verse-display mb-4">
+                        <h4 class="text-center mb-3">{{ verse_info.reference }}</h4>
+                        <div class="verse-text">
+                            {{ verse_info.verse }}
+                        </div>
+                        <div class="text-center mt-2">
+                            <small class="text-muted">Potential Score: {{ verse_info.potential_score }} points</small>
+                        </div>
+                    </div>
+
+                    <form method="POST" class="verse-form">
+                        <div class="form-group">
+                            <label for="answer">Complete the verse:</label>
+                            <textarea class="form-control" id="answer" name="answer" rows="3"
+                                placeholder="Enter your answer here..." required></textarea>
+                        </div>
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fa fa-check"></i> Check Answer
+                            </button>
+                        </div>
+                    </form>
+
+                    {% if result %}
+                    <div class="result-message mt-4">
+                        <div
+                            class="alert {% if result.current_score == result.potential_score %}alert-success{% else %}alert-info{% endif %}">
+                            {{ result.message }}
+                        </div>
+                        <div class="text-center">
+                            <a href="/verses/{{ note_id }}" class="btn btn-outline-primary">
+                                <i class="fa fa-refresh"></i> Try Again
+                            </a>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block javascript %}
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const answerTextarea = document.getElementById('answer');
+        if (answerTextarea) {
+            answerTextarea.focus();
+        }
+    });
+</script>
+{% endblock %}
