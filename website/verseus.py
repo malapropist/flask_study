@@ -1,10 +1,8 @@
 import random
 
-
-
-# Pull from server or enter new verse
+# Usually this will be passed from server or enter new verse
 verse = """For God so loved the world that He gave his only begotten son"""
-# Source from dictionary of all verses and chapters
+# TODO Source from dictionary of all verses and chapters
 reference = ["John","3","16"]
 
 

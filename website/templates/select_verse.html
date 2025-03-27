@@ -6,5 +6,34 @@
 <h1 alignment="center">Complete your verse!</h1>
 
 {{ notes }}
+{{ ref }}
 
+<textarea name="note" id="note" class="form-control"></textarea>
+
+<script>
+    // Select the text box element
+    const textArea = document.getElementById('note');
+    textArea.placeholder = "Type your telsnasdczv..."
+    // Flag to track if the text box is active
+    let isTyping = false;
+
+    // Start logging when the text box is focused
+    textArea.addEventListener('focus', () => {
+        isTyping = true;
+        console.log("Text box is focused");
+    });
+
+    // Stop logging when the text box loses focus
+    textArea.addEventListener('blur', () => {
+        isTyping = false;
+        console.log("Text box is no longer focused");
+    });
+
+    // Log to the console whenever there's input while the box is focused
+    textArea.addEventListener('input', () => {
+        if (isTyping) {
+            console.log("Typing...");
+        }
+    });
+</script>
 {% endblock %}

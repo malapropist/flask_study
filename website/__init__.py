@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, send_from_directory
 from flask_sqlalchemy import SQLAlchemy
 from os import path
 from flask_login import LoginManager
@@ -11,6 +11,10 @@ def create_app():
     app.config['SECRET_KEY'] = 'asdfghjkl'
     app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{DB_NAME}'
     db.init_app(app)
+
+    @app.route('/favicon.ico')
+    def favicon():
+        return send_from_directory(app.static_folder, 'static/android-chrome-512x512.png', mimetype='image/png')
 
     from .views import views
     from .auth import auth

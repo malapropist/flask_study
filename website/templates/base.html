@@ -1,26 +1,5 @@
 <!DOCTYPE html>
 <html>
-<style>
-    body {
-        /* Linear gradient from top to bottom */
-        background-color: #350053 !important;
-        background: linear-gradient(to bottom, #ab2403, transparent);
-        height: 100%;
-        /* Fallback color in case gradients are not supported */
-        margin: 0;
-        padding: 0;
-
-        /* display: flex; */
-        justify-content: top;
-        /* align-items: center; */
-        /* font-family: Arial, sans-serif; */
-    }
-
-    html {
-        height: 100%;
-
-    }
-</style>
 
 <head>
     <meta charset="utf-8" />
@@ -29,13 +8,14 @@
         integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous" />
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
         crossorigin="anonymous" />
-
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}" />
+    <link rel="icon" href="{{ url_for('static', filename='android-chrome-512x512.png') }}" type="image/x-icon">
     <title>{% block title %}Verseus{% endblock %}</title>
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <h1 style="color: antiquewhite;margin-right: 10%;">Verseus</h1>
+    <nav class="navbar navbar-expand-lg">
+        <h1 class="navbar-brand">Verseus</h1>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar">
             <span class="navbar-toggler-icon"></span>
         </button>
