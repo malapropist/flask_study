@@ -1,7 +1,5 @@
 import random
-
-from .models import Note
-from flask_login import current_user
+from .verse_service import VerseService
 
 class Verse_Test:
 
@@ -16,27 +14,25 @@ class Verse_Test:
         }
         self.word_blank_positions = []
         self.potential_score = 0
-        self.verse, self.reference = self.get_verse_from_db(current_user.id, note_id)
-        self.completions = completions
+        self.current_user = current_user
+        self.note_id = note_id
         
+        # Get verse data through service layer
+        self.verse, self.reference, self.completions = VerseService.get_verse_data(
+            current_user.id, note_id) if current_user and note_id else (None, None, completions)
+        print("verse: ", self.verse, "reference: ", self.reference, "completions: ", self.completions)
         if self.verse:
             self.verse_list = self.verse.split(" ")
             self.verse_word_length = len(self.verse_list)
             self.word_blank_positions = [0 for _ in range(self.verse_word_length)]
             self.blanks_inserted_verse = self.gen_new_blanks()
 
-    # Get verse and reference from database based on user ID and note ID
-    def get_verse_from_db(self, user_id, note_id):
-        note = Note.query.filter_by(user_id=user_id, id=note_id).first()
-        if note:
-            return note.data, note.ref
-        return None, None
-
     @staticmethod
     def score_word(word, scores_matrix):
-        return sum([scores_matrix[letter] for letter in word.upper()])
+        return sum([scores_matrix[letter] if letter in scores_matrix else 0 for letter in word.upper()])
 
     def gen_new_blanks(self):
+        print(self.verse_word_length, self.completions)
         # Generate new blanks based on completions
         for new_blank_spot in random.sample(range(0, self.verse_word_length), 
                                           min(self.completions, self.verse_word_length)):
@@ -65,6 +61,9 @@ class Verse_Test:
 
         if current_score == self.potential_score:
             message = f"Perfect! You've earned {current_score} points!"
+            # Update completions through service layer
+            if self.current_user and self.note_id:
+                VerseService.update_note_completions(self.note_id, self.completions + 1)
         else:
             message = f"Good try! You've earned {current_score} points. Keep practicing!"
 

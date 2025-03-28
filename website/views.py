@@ -91,7 +91,6 @@ def add_note():
 @views.route('/verses/<int:note_id>', methods=['GET', 'POST'])
 @login_required
 def practice_verse(note_id):
-    print("so we are: ", current_user)
     verse_test = Verse_Test(current_user=current_user, note_id=note_id, completions=3)
 
     if not verse_test.verse:

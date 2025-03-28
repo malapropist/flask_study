@@ -11,7 +11,8 @@ class Note(db.Model):
     data_blanked = db.Column(db.String(500))
     ref = db.Column(JSON)
     word_blank_positions = db.Column(JSON)
-    
+    completions = db.Column(db.Integer, default=0)
+
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(150), unique=True)
