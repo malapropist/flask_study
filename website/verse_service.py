@@ -19,8 +19,8 @@ class VerseService:
     def get_verse_data(user_id, note_id):
         note = Note.query.filter_by(user_id=user_id, id=note_id).first()
         if note:
-            return note.data, note.ref, note.completions
-        return None, None, 0
+            return note.data, note.ref, note.completions, note.word_blank_positions
+        return None, None, 0, None
     
     @staticmethod
     def update_verse_blanks(note_id, word_blank_positions):

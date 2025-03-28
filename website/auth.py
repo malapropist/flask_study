@@ -11,11 +11,12 @@ def login():
     if request.method == 'POST':    
         email = request.form.get('email')
         password = request.form.get('password')
+        remember = request.form.get('remember') == 'on'  # Checkbox returns 'on' when checked
         user = User.query.filter_by(email=email).first()
         if user:
             if check_password_hash(user.password, password):
                 flash('Logged in successfully', category='success')
-                login_user(user, remember=True)
+                login_user(user, remember=remember)  # Use the checkbox value
                 return redirect(url_for("views.home"))
             else:
                 flash('Incorrect password', category='error')

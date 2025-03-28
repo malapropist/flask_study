@@ -11,7 +11,15 @@
         <label for="password">Password</label>
         <input type="password" class="form-control" id="password" name="password" placeholder="Enter password" />
     </div>
+    <div class="form-group form-check">
+        <input type="checkbox" class="form-check-input" id="remember" name="remember">
+        <label class="form-check-label" for="remember">Remember Me</label>
+    </div>
     <br />
     <button type="submit" class="btn btn-primary">Login</button>
 </form>
+<div class="text-center mt-3">
+    <p>Don't have an account? <a href="/sign-up">Sign Up</a></p>
+</div>
+
 {% endblock %}

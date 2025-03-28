@@ -18,12 +18,13 @@ class Verse_Test:
         self.note_id = note_id
         
         # Get verse data through service layer
-        self.verse, self.reference, self.completions = VerseService.get_verse_data(
+        self.verse, self.reference, self.completions, self.word_blank_positions = VerseService.get_verse_data(
             current_user.id, note_id) if current_user and note_id else (None, None, completions)
         print("verse: ", self.verse, "reference: ", self.reference, "completions: ", self.completions)
         if self.verse:
             self.verse_list = self.verse.split(" ")
             self.verse_word_length = len(self.verse_list)
+        if self.verse and not self.word_blank_positions:
             self.word_blank_positions = [0 for _ in range(self.verse_word_length)]
             self.blanks_inserted_verse = self.gen_new_blanks()
 
@@ -64,6 +65,7 @@ class Verse_Test:
             # Update completions through service layer
             if self.current_user and self.note_id:
                 VerseService.update_note_completions(self.note_id, self.completions + 1)
+                VerseService.update_verse_blanks(self.note_id, self.word_blank_positions)
         else:
             message = f"Good try! You've earned {current_score} points. Keep practicing!"
 
