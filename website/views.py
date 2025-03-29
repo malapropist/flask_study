@@ -91,7 +91,7 @@ def add_note():
 @views.route('/verses/<int:note_id>', methods=['GET', 'POST'])
 @login_required
 def practice_verse(note_id):
-    verse_test = Verse_Test(current_user=current_user, note_id=note_id, completions=3)
+    verse_test = Verse_Test(current_user=current_user, note_id=note_id)
 
     if not verse_test.verse:
         flash('Verse not found', category='error')
