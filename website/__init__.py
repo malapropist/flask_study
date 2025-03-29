@@ -1,3 +1,4 @@
+# This file makes the website directory a Python package
 import os
 from os import path
 from flask import Flask, send_from_directory
