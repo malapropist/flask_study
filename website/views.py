@@ -29,7 +29,7 @@ def home():
     "2 Timothy", "Titus", "Philemon", "Hebrews", "James",
     "1 Peter", "2 Peter", "1 John", "2 John", "3 John",
     "Jude", "Revelation"]
-    return render_template("home.html", user=current_user, books=books_of_the_bible)
+    return render_template("home.html", user=current_user, books=books_of_the_bible, users=User.query.order_by(User.weekly_score.desc()).limit(10).all())
 
 @views.route('/verses', methods=['GET'])
 @login_required

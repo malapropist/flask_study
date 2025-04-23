@@ -35,3 +35,13 @@ class VerseService:
             db.session.commit()
             return True
         return False
+    
+    @staticmethod
+    def update_user_weekly_score(user_id, score_delta):
+        from .models import User
+        user = User.query.filter_by(id=user_id).first()
+        if user:
+            user.weekly_score = (user.weekly_score or 0) + score_delta
+            db.session.commit()
+            return True
+        return False

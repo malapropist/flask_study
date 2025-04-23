@@ -136,6 +136,11 @@ class Verse_Test:
         else:
             message = f"Good try! You've earned {current_score} points. Keep practicing!"
         print("current_score: ", current_score, "potential_score: ", self.potential_score, "message: ", message)
+        update_score = VerseService.update_user_weekly_score(self.current_user.id, current_score)
+        if update_score:
+            print("Successfully updated user weekly score")
+        else:
+            print("Error updating user weekly score")
         return current_score, self.potential_score, message
 
     def get_verse_display(self):
