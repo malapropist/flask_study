@@ -5,9 +5,13 @@ from flask import Flask, send_from_directory
 from flask_sqlalchemy import SQLAlchemy
 from os.path import join, dirname, realpath
 from flask_login import LoginManager
+from flask_apscheduler import APScheduler
+from datetime import datetime
 
 db = SQLAlchemy()
 DB_NAME = "database.db"
+
+scheduler = APScheduler()
 
 def create_app():
     app = Flask(__name__)
@@ -41,6 +45,15 @@ def create_app():
     def load_user(id):
         return User.query.get(int(id))
 
+    scheduler.init_app(app)
+    scheduler.add_job(id='reset_weekly_scores', 
+                     func=reset_weekly_scores,
+                     trigger='cron', 
+                     day_of_week='sun',  # Reset every Sunday
+                     hour=0,             # at midnight
+                     minute=0)
+    scheduler.start()
+
     return app
 
 def create_database(app):
@@ -48,3 +61,13 @@ def create_database(app):
         with app.app_context():
             db.create_all()
         # print('Created Database!')
+
+def reset_weekly_scores():
+    with app.app_context():
+        try:
+            User.query.update({User.weekly_score: 0})
+            db.session.commit()
+            print(f"Weekly scores reset at {datetime.now()}")
+        except Exception as e:
+            db.session.rollback()
+            print(f"Error resetting scores: {e}")

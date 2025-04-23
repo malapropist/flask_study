@@ -80,7 +80,7 @@ def add_note():
         elif len(title) < 1:
             flash('Please enter a title', category='error')
         else:
-            new_note = Note(data=note, user_id=current_user.id, ref=ref)
+            new_note = Note(title=title, data=note, user_id=current_user.id, ref=ref)
             db.session.add(new_note)
             db.session.commit()
             flash('Note added successfully!', category='success')

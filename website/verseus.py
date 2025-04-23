@@ -93,7 +93,7 @@ class Verse_Test:
     def update_completions(self, new_blanks):
         if self.current_user and self.note_id:
             print("Writing completions to database...")
-            success = VerseService.update_note_completions(self.note_id, self.completions+1)
+            success = VerseService.update_note_completions(self.current_user.id, self.note_id, self.completions+1)
             if success:
                 print("Successfully updated completions")
             else:
@@ -101,7 +101,7 @@ class Verse_Test:
 
             print("Updating verse blanks...")
             print("current word_blank_positions: ", self.word_blank_positions)
-            success = VerseService.update_verse_blanks(self.note_id, new_blanks)
+            success = VerseService.update_verse_blanks(self.current_user.id, self.note_id, new_blanks)
             if success:
                 print("Successfully updated verse blanks")
                 print("new word_blank_positions: ", VerseService.get_verse_data(self.current_user.id, self.note_id)[3])
