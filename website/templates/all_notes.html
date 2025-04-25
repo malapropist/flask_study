@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}All Notes{% endblock %}
+{% block content %}
+<div class="container mt-4">
+    <h1 class="text-center mb-4">All Users' Notes</h1>
+
+    <div class="row mb-4">
+        <div class="col-md-6 mx-auto">
+            <form method="GET" action="{{ url_for('views.all_notes') }}" class="d-flex">
+                <input type="text" name="search" class="form-control me-2" placeholder="Search notes..."
+                    value="{{ search_query }}">
+                <button type="submit" class="btn btn-primary">Search</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="row">
+        {% for note in notes %}
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">{{ note.title }}</h5>
+                    <p class="card-text">
+                        <strong>User:</strong> {{ note.user_id }}<br>
+                        <strong>Contents:</strong> {{ note.data }}<br>
+                        <strong>Completions:</strong> {{ note.completions }}
+                    </p>
+                    <a href="{{ url_for('views.add_note', note_id=note.id, title=note.title, data=note.data, ref=note.ref) }}"
+                        class="btn btn-primary">Add Note</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

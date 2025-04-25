@@ -6,6 +6,7 @@
     --accent-green: #64ffda;
     --accent-blue: #00b4d8;
     --text-primary: #484e57;
+    --text-light: #ffffff;
     --text-secondary: #8892b0;
     --danger: #ff6b6b;
     --success: #4caf50;
@@ -205,7 +206,6 @@ a:hover {
 }
 
 .note-text {
-    white-space: pre-wrap;
     word-wrap: break-word;
     margin-bottom: 0.25rem;
 }
@@ -422,6 +422,15 @@ a:hover {
     letter-spacing: 0.5px;
 }
 
+.verse-text-dark {
+    font-size: 1.2rem;
+    line-height: 1.8;
+    color: var(--text-light);
+    text-align: center;
+    font-family: 'Georgia', serif;
+    letter-spacing: 0.5px;
+}
+
 .verse-form {
     max-width: 600px;
     margin: 0 auto;
@@ -449,4 +458,28 @@ a:hover {
         opacity: 1;
         transform: translateY(0);
     }
+}
+
+.leaderboard-list {
+    max-height: 300px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--accent-blue) var(--primary-dark);
+}
+
+.leaderboard-list::-webkit-scrollbar {
+    width: 6px;
+}
+
+.leaderboard-list::-webkit-scrollbar-track {
+    background: var(--primary-dark);
+}
+
+.leaderboard-list::-webkit-scrollbar-thumb {
+    background: var(--accent-blue);
+    border-radius: 3px;
+}
+
+.leaderboard-list::-webkit-scrollbar-thumb:hover {
+    background: var(--accent-green);
 }

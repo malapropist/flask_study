@@ -1,6 +1,6 @@
-from flask import Blueprint, render_template, request, flash, jsonify, g, send_from_directory, redirect, url_for
+from flask import Blueprint, render_template, request, flash, jsonify, g, send_from_directory, redirect, url_for, session
 from flask_login import login_user, login_required, logout_user, current_user
-from .models import Note
+from .models import Note, User
 from . import db
 from .verseus import Verse_Test
 import json
@@ -29,7 +29,8 @@ def home():
     "2 Timothy", "Titus", "Philemon", "Hebrews", "James",
     "1 Peter", "2 Peter", "1 John", "2 John", "3 John",
     "Jude", "Revelation"]
-    return render_template("home.html", user=current_user, books=books_of_the_bible, users=User.query.order_by(User.weekly_score.desc()).limit(10).all())
+    users = User.query.with_entities(User.first_name, User.weekly_score).order_by(User.weekly_score.desc()).limit(10).all()
+    return render_template("home.html", user=current_user, books=books_of_the_bible, users=users)
 
 @views.route('/verses', methods=['GET'])
 @login_required
@@ -70,23 +71,47 @@ def add_note():
     "1 Peter", "2 Peter", "1 John", "2 John", "3 John",
     "Jude", "Revelation"]
     
+    # Get note metadata from URL parameters if present
+    note_id = request.args.get('note_id')
+    if note_id:
+        note = Note.query.get(note_id)
+        if note:
+            session['note_metadata'] = {
+                'title': note.title,
+                'data': note.data,
+                'ref': note.ref
+            }
+    
+    # Get pre-filled data from session
+    pre_filled = session.get('note_metadata', {})
+    
     if request.method == "POST":
         note = request.form.get("note")
-        ref = request.form.get("chapter_verse")
         title = request.form.get("title")
-        # TODO reevaluate this
+        book = request.form.get("book")
+        chapter = request.form.get("chapter")
+        verses = request.form.get("verses")
+        
         if len(note) < 1:
             flash('Please enter note content', category='error')
         elif len(title) < 1:
             flash('Please enter a title', category='error')
+        elif not book or not chapter or not verses:
+            flash('Please select a book, chapter, and enter verses', category='error')
         else:
+            ref = f"{book} {chapter}:{verses}"
             new_note = Note(title=title, data=note, user_id=current_user.id, ref=ref)
             db.session.add(new_note)
             db.session.commit()
+            # Clear the session metadata after successful note creation
+            session.pop('note_metadata', None)
             flash('Note added successfully!', category='success')
             return redirect(url_for('views.home'))
             
-    return render_template("add_note.html", user=current_user, books=books_of_the_bible)
+    return render_template("add_note.html", 
+                         user=current_user, 
+                         books=books_of_the_bible,
+                         pre_filled=pre_filled)
 
 @views.route('/verses/<int:note_id>', methods=['GET', 'POST'])
 @login_required
@@ -128,4 +153,26 @@ def delete_note():
             # return redirect(url_for('views.verses'))
 
     return jsonify({})
+
+@views.route('/community')
+@login_required
+def all_notes():
+    search_query = request.args.get('search', '')
+    query = Note.query.join(User)
+    
+    if search_query:
+        search = f"%{search_query}%"
+        query = query.filter(
+            db.or_(
+                Note.title.ilike(search),
+                Note.data.ilike(search),
+                User.first_name.ilike(search)
+            )
+        )
+    
+    notes = query.order_by(Note.date.desc()).all()
+    return render_template("all_notes.html", 
+                         user=current_user, 
+                         notes=notes,
+                         search_query=search_query)
 

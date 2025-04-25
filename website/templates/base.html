@@ -21,7 +21,8 @@
                 <div class="d-flex mr-auto" style="padding-top: 0.2rem;">
                     {% if user.is_authenticated %}
                     <a class="nav-item nav-link" id="home" href="/home">Dashboard</a>
-                    <a class="nav-item nav-link" id="verseus" href="/verses">Verseus</a>
+                    <a class="nav-item nav-link" id="verseus" href="/verses">Study</a>
+                    <a class="nav-item nav-link" id="community" href="/community">Community</a>
                     {% else %}
                     <a class="nav-item nav-link" id="login" href="/login">Login</a>
                     <a class="nav-item nav-link" id="signUp" href="/sign-up">Sign Up</a>
@@ -38,14 +39,14 @@
     {% with messages = get_flashed_messages(with_categories=true) %} {% if
     messages %} {% for category, message in messages %} {% if category ==
     'error' %}
-    <div class="alert alert-danger alter-dismissable fade show" role="alert">
+    <div class="alert alert-danger alter-dismissable fade show" role="alert" id="flash-message">
         {{ message }}
         <button type="button" class="close" data-dismiss="alert">
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
     {% else %}
-    <div class="alert alert-success alter-dismissable fade show" role="alert">
+    <div class="alert alert-success alter-dismissable fade show" role="alert" id="flash-message">
         {{ message }}
         <button type="button" class="close" data-dismiss="alert">
             <span aria-hidden="true">&times;</span>
@@ -74,6 +75,19 @@
                 window.location.href = "/home";
             });
         }
+
+        // Auto-dismiss flash messages after 5 seconds
+        document.addEventListener('DOMContentLoaded', function () {
+            const flashMessages = document.querySelectorAll('#flash-message');
+            flashMessages.forEach(function (message) {
+                setTimeout(function () {
+                    message.classList.remove('show');
+                    setTimeout(function () {
+                        message.remove();
+                    }, 150); // Wait for fade out animation to complete
+                }, 5000);
+            });
+        });
     </script>
     {% endblock %}
 </body>
