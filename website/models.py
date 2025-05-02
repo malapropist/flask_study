@@ -28,6 +28,18 @@ class User(db.Model, UserMixin):
     password = db.Column(db.String(150))
     score = db.Column(db.Integer)
     role = db.Column(Enum(UserRole), default=UserRole.USER)
-    notes = db.relationship('Note')
     weekly_score = db.Column(db.Integer, default=0)
-    
+    notes = db.relationship('Note')
+    groups = db.relationship('Group', secondary='user_groups_association', back_populates='members')
+
+class Group(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(150), nullable=False)
+    join_passcode = db.Column(db.String(50), nullable=False)
+    members = db.relationship('User', secondary='user_groups_association', back_populates='groups')
+
+# Association table for many-to-many relationship between users and groups
+class UserGroupsAssociation(db.Model):
+    __tablename__ = 'user_groups_association'
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), primary_key=True)
+    group_id = db.Column(db.Integer, db.ForeignKey('group.id'), primary_key=True)
