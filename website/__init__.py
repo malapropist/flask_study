@@ -45,13 +45,15 @@ def create_app():
     def load_user(id):
         return User.query.get(int(id))
 
+
+
     scheduler.init_app(app)
     scheduler.add_job(id='reset_weekly_scores',
                      func=lambda: reset_weekly_scores(app),
                      trigger='cron',
                      day_of_week='sun',
                      hour=0,
-                     minute=0)  # Run at midnight on Sundays
+                     minute=0)  # Run every Sunday at midnight
     scheduler.start()
 
     return app

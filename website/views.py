@@ -1,9 +1,10 @@
 from flask import Blueprint, render_template, request, flash, jsonify, g, send_from_directory, redirect, url_for, session
 from flask_login import login_user, login_required, logout_user, current_user
-from .models import Note, User
+from .models import Note, User, Group
 from . import db
 from .verseus import Verse_Test
 import json
+import secrets
 
 views = Blueprint('views', __name__)
 
@@ -175,4 +176,23 @@ def all_notes():
                          user=current_user, 
                          notes=notes,
                          search_query=search_query)
+
+@views.route('/create-group', methods=['POST'])
+@login_required
+def create_group():
+    group_name = request.form.get('group_name')
+    
+    if not group_name:
+        flash('Please enter a group name', category='error')
+        return redirect(url_for('views.home'))
+    
+    # Generate a random 6-digit passcode
+    passcode = ''.join(secrets.choice('0123456789') for _ in range(6))
+    
+    new_group = Group(name=group_name, join_passcode=passcode)
+    db.session.add(new_group)
+    db.session.commit()
+    
+    flash(f'Group "{group_name}" created successfully! Join code: {passcode}', category='success')
+    return redirect(url_for('views.home'))
 
