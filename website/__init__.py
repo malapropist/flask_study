@@ -46,12 +46,12 @@ def create_app():
         return User.query.get(int(id))
 
     scheduler.init_app(app)
-    scheduler.add_job(id='reset_weekly_scores', 
-                     func=reset_weekly_scores,
-                     trigger='cron', 
-                     day_of_week='sun',  # Reset every Sunday
-                     hour=0,             # at midnight
-                     minute=0)
+    scheduler.add_job(id='reset_weekly_scores',
+                     func=lambda: reset_weekly_scores(app),
+                     trigger='cron',
+                     day_of_week='sun',
+                     hour=0,
+                     minute=0)  # Run at midnight on Sundays
     scheduler.start()
 
     return app
@@ -60,9 +60,10 @@ def create_database(app):
     if not path.exists('website/' + DB_NAME):
         with app.app_context():
             db.create_all()
-        # print('Created Database!')
 
-def reset_weekly_scores():
+def reset_weekly_scores(app):
+    from .models import User, Note, Group, UserGroupsAssociation
+    print("resetting weekly scores")
     with app.app_context():
         try:
             User.query.update({User.weekly_score: 0})
