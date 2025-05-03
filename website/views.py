@@ -5,6 +5,7 @@ from . import db
 from .verseus import Verse_Test
 import json
 import secrets
+from website import limiter
 
 views = Blueprint('views', __name__)
 
@@ -116,6 +117,7 @@ def add_note():
 
 @views.route('/verses/<int:note_id>', methods=['GET', 'POST'])
 @login_required
+@limiter.limit("10 per minute")  # Limit to 10 attempts per minute
 def practice_verse(note_id):
     verse_test = Verse_Test(current_user=current_user, note_id=note_id)
 
@@ -180,6 +182,7 @@ def all_notes():
 @views.route('/groups', methods=['GET', 'POST'])
 @login_required
 def groups():
+    users = User.query.join(Group.members).filter(Group.members.any()).with_entities(User.first_name, User.weekly_score).order_by(User.weekly_score.desc()).all()
     if request.method == 'POST':
         group_name = request.form.get('group_name')
         
@@ -201,7 +204,7 @@ def groups():
         flash(f'Group "{group_name}" created successfully! Join code: {passcode}', category='success')
         return redirect(url_for('views.groups'))
     
-    return render_template("groups.html", user=current_user)
+    return render_template("groups.html", user=current_user, users=users)
 
 @views.route('/join-group', methods=['POST'])
 @login_required
