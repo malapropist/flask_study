@@ -1,0 +1,142 @@
+{% extends "base.html" %}
+{% block title %}{{ profile_user.first_name }}'s Profile{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row">
+        <!-- Profile Header -->
+        <div class="col-md-12 mb-4">
+            <div class="card">
+                <div class="card-body text-center">
+                    <h1 class="mb-3">{{ profile_user.first_name }}'s Profile</h1>
+                    <div class="profile-stats">
+                        <div class="stat-item">
+                            <i class="fa fa-sticky-note"></i>
+                            <div class="stat-value">{{ profile_user.notes|length }}</div>
+                            <div class="stat-label">Total Notes</div>
+                        </div>
+                        <div class="stat-item">
+                            <i class="fa fa-trophy"></i>
+                            <div class="stat-value">{{ profile_user.score }}</div>
+                            <div class="stat-label">Total Score</div>
+                        </div>
+                        <div class="stat-item">
+                            <i class="fa fa-book"></i>
+                            <div class="stat-value">{{ profile_user.weekly_score }}</div>
+                            <div class="stat-label">Weekly Score</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Notes -->
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h3><i class="fa fa-clock-o"></i> Recent Notes</h3>
+                </div>
+                <div class="card-body">
+                    {% if profile_user.notes %}
+                    <div class="list-group list-group-flush">
+                        {% for note in (profile_user.notes | sort(attribute='date', reverse=true))[:5] %}
+                        <div class="list-group-item">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="note-content">
+                                    <h4 class="verse-title">{{ note.title }}</h4>
+                                    <div class="note-text">{{ note.data[:50] }}{% if note.data|length > 50 %}...{% endif
+                                        %}</div>
+                                    <small class="text-muted">Ref: {{ note.ref }}</small>
+                                </div>
+                                <div class="note-actions">
+                                    <a href="/verses/{{ note.id }}" class="btn btn-sm btn-outline-primary">
+                                        <i class="fa fa-arrow-right"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% if profile_user.notes|length > 5 %}
+                    <div class="text-center mt-3">
+                        <a href="/verses" class="btn btn-outline-primary">View All Notes</a>
+                    </div>
+                    {% endif %}
+                    {% else %}
+                    <p class="text-muted">No notes yet.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Groups -->
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header">
+                    <h3><i class="fa fa-users"></i> Groups</h3>
+                </div>
+                <div class="card-body">
+                    {% if profile_user.groups %}
+                    <div class="list-group list-group-flush">
+                        {% for group in profile_user.groups %}
+                        <div class="list-group-item">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span>{{ group.name }}</span>
+                                <span class="badge bg-primary">{{ group.members|length }} members</span>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    <p class="text-muted">Not a member of any groups yet.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .profile-stats {
+        display: flex;
+        justify-content: center;
+        gap: 2rem;
+        margin-top: 1rem;
+    }
+
+    .stat-item {
+        text-align: center;
+        padding: 1rem;
+        border-radius: 8px;
+        background-color: #f8f9fa;
+        min-width: 120px;
+    }
+
+    .stat-item i {
+        font-size: 2rem;
+        color: #0d6efd;
+        margin-bottom: 0.5rem;
+    }
+
+    .stat-value {
+        font-size: 1.5rem;
+        font-weight: bold;
+        margin-bottom: 0.25rem;
+    }
+
+    .stat-label {
+        color: #6c757d;
+        font-size: 0.9rem;
+    }
+
+    .verse-title {
+        font-size: 1.1rem;
+        margin-bottom: 0.25rem;
+    }
+
+    .note-text {
+        color: #6c757d;
+        margin-bottom: 0.25rem;
+    }
+</style>
+{% endblock %}

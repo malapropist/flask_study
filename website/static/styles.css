@@ -483,3 +483,101 @@ a:hover {
 .leaderboard-list::-webkit-scrollbar-thumb:hover {
     background: var(--accent-green);
 }
+
+.dropdown {
+    background-color: #fe0303;
+    display: inline-block;
+    color: #ffffff;
+    border: none;
+    cursor: pointer;
+    padding: 15px 10px;
+}
+
+.dropdown-content.show {
+    display: block;
+}
+
+.dropdown-content {
+    /* position: absolute; */
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(255, 255, 255, 0.637);
+    display: none;
+    background-color: #ff7e7e;
+    border: none;
+}
+
+
+.top {
+    background: #212121;
+    color: #fff;
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    z-index: 2;
+    overflow: hidden;
+}
+
+a.menu {
+    position: absolute;
+    z-index: 3;
+    border: 1px solid white;
+    text-decoration: none;
+    top: 1.6em;
+    right: 1.6em;
+    color: #fff;
+    text-transform: uppercase;
+    font-size: 0.65em;
+    padding: 0.4em 0.7em;
+    border-radius: 4px;
+}
+
+a.menu span {
+    font-size: 1.6em;
+    vertical-align: -0.15em;
+}
+
+nav ul {
+    list-style: none;
+}
+
+nav ul li a {
+    display: block;
+    text-decoration: none;
+    background: rgba(0, 0, 0, 0.3);
+    color: white;
+    padding: 1em;
+    margin-bottom: 1px;
+}
+
+.drawer {
+    -webkit-transform: translate3d(0, -131px, 0);
+    -moz-transform: translate3d(0, -131px, 0);
+    -o-transform: translate3d(0, -131px, 0);
+    transform: translate3d(0, -131px, 0);
+    -webkit-transition: -webkit-transform 0.25s linear;
+    -moz-transition: -moz-transform 0.25s linear;
+    -o-transition: -o-transform 0.25s linear;
+    transition: transform 0.25s linear;
+}
+
+.drawer.active {
+    -webkit-transform: translate3d(0, 129px, 0);
+    -moz-transform: translate3d(0, 129px, 0);
+    -o-transform: translate3d(0, 129px, 0);
+    transform: translate3d(0, 129px, 0);
+}
+
+/* Fallbacks */
+
+.no-csstransforms .top {
+    position: static;
+}
+
+.no-csstransforms .drawer nav {
+    display: none;
+}
+
+.no-csstransforms .drawer.active nav {
+    display: block;
+}

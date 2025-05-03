@@ -177,22 +177,75 @@ def all_notes():
                          notes=notes,
                          search_query=search_query)
 
-@views.route('/create-group', methods=['POST'])
+@views.route('/groups', methods=['GET', 'POST'])
 @login_required
-def create_group():
-    group_name = request.form.get('group_name')
+def groups():
+    if request.method == 'POST':
+        group_name = request.form.get('group_name')
+        
+        if not group_name:
+            flash('Please enter a group name', category='error')
+            return redirect(url_for('views.groups'))
+        
+        # Generate a random 6-digit passcode
+        passcode = ''.join(secrets.choice('0123456789') for _ in range(6))
+        
+        new_group = Group(name=group_name, join_passcode=passcode)
+        db.session.add(new_group)
+        db.session.commit()
+        
+        # Add creator to the group
+        new_group.members.append(current_user)
+        db.session.commit()
+        
+        flash(f'Group "{group_name}" created successfully! Join code: {passcode}', category='success')
+        return redirect(url_for('views.groups'))
     
-    if not group_name:
-        flash('Please enter a group name', category='error')
-        return redirect(url_for('views.home'))
+    return render_template("groups.html", user=current_user)
+
+@views.route('/join-group', methods=['POST'])
+@login_required
+def join_group():
+    join_code = request.form.get('join_code')
     
-    # Generate a random 6-digit passcode
-    passcode = ''.join(secrets.choice('0123456789') for _ in range(6))
+    if not join_code:
+        flash('Please enter a join code', category='error')
+        return redirect(url_for('views.groups'))
     
-    new_group = Group(name=group_name, join_passcode=passcode)
-    db.session.add(new_group)
+    group = Group.query.filter_by(join_passcode=join_code).first()
+    
+    if not group:
+        flash('Invalid join code', category='error')
+        return redirect(url_for('views.groups'))
+    
+    if current_user in group.members:
+        flash('You are already a member of this group', category='error')
+        return redirect(url_for('views.groups'))
+    
+    group.members.append(current_user)
     db.session.commit()
     
-    flash(f'Group "{group_name}" created successfully! Join code: {passcode}', category='success')
-    return redirect(url_for('views.home'))
+    flash(f'Successfully joined group "{group.name}"!', category='success')
+    return redirect(url_for('views.groups'))
+
+@views.route('/leave-group/<int:group_id>', methods=['POST'])
+@login_required
+def leave_group(group_id):
+    group = Group.query.get_or_404(group_id)
+    
+    if current_user not in group.members:
+        flash('You are not a member of this group', category='error')
+        return redirect(url_for('views.groups'))
+    
+    group.members.remove(current_user)
+    db.session.commit()
+    
+    flash(f'Successfully left group "{group.name}"', category='success')
+    return redirect(url_for('views.groups'))
+
+@views.route('/profile/<username>')
+@login_required
+def view_profile(username):
+    profile_user = User.query.filter_by(first_name=username).first_or_404()
+    return render_template("profile.html", user=current_user, profile_user=profile_user)
 

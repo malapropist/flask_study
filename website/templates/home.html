@@ -22,39 +22,14 @@
                     <a href="/community" class="btn btn-primary mb-3">
                         <i class="fa fa-book"></i> Browse Community Verses
                     </a>
-                    <button type="button" class="btn btn-info mb-3" data-bs-toggle="modal"
-                        data-bs-target="#createGroupModal">
+                    <a href="/create-group" class="btn btn-info mb-3">
                         <i class="fa fa-users"></i> Create New Group
-                    </button>
+                    </a>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Create Group Modal -->
-    <div class="modal fade" id="createGroupModal" tabindex="-1" aria-labelledby="createGroupModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="createGroupModalLabel">Create New Group</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <form method="POST" action="{{ url_for('views.create_group') }}">
-                    <div class="modal-body">
-                        <div class="mb-3">
-                            <label for="group_name" class="form-label">Group Name</label>
-                            <input type="text" class="form-control" id="group_name" name="group_name" required>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                        <button type="submit" class="btn btn-primary">Create Group</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
 
     <!-- Recent Notes Card -->
     <div class="col-md-6 mb-4">
