@@ -41,7 +41,9 @@ class VerseService:
         from .models import User
         user = User.query.filter_by(id=user_id).first()
         if user:
-            user.weekly_score = (user.weekly_score or 0) + score_delta
-            db.session.commit()
+            if score_delta > 0:
+                user.weekly_score = (user.weekly_score or 0) + score_delta
+                user.score = (user.score or 0) + score_delta
+                db.session.commit()
             return True
         return False

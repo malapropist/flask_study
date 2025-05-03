@@ -31,6 +31,7 @@ class User(db.Model, UserMixin):
     weekly_score = db.Column(db.Integer, default=0)
     notes = db.relationship('Note')
     groups = db.relationship('Group', secondary='user_groups_association', back_populates='members')
+    lifetime_score = db.Column(db.Integer, default=0)
 
 class Group(db.Model):
     id = db.Column(db.Integer, primary_key=True)

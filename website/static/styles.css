@@ -493,12 +493,10 @@ a:hover {
     padding: 15px 10px;
 }
 
-.dropdown-content.show {
-    display: block;
-}
+
 
 .dropdown-content {
-    /* position: absolute; */
+    position: absolute;
     min-width: 160px;
     box-shadow: 0px 8px 16px 0px rgba(255, 255, 255, 0.637);
     display: none;
@@ -506,17 +504,6 @@ a:hover {
     border: none;
 }
 
-
-.top {
-    background: #212121;
-    color: #fff;
-    position: absolute;
-    left: 0;
-    top: 0;
-    right: 0;
-    z-index: 2;
-    overflow: hidden;
-}
 
 a.menu {
     position: absolute;
@@ -537,47 +524,23 @@ a.menu span {
     vertical-align: -0.15em;
 }
 
-nav ul {
+div.dropdown ul {
     list-style: none;
 }
 
-nav ul li a {
+div.dropdown ul li {
     display: block;
     text-decoration: none;
     background: rgba(0, 0, 0, 0.3);
     color: white;
-    padding: 1em;
-    margin-bottom: 1px;
+    padding: 0;
+    margin-bottom: 0;
 }
 
-.drawer {
-    -webkit-transform: translate3d(0, -131px, 0);
-    -moz-transform: translate3d(0, -131px, 0);
-    -o-transform: translate3d(0, -131px, 0);
-    transform: translate3d(0, -131px, 0);
-    -webkit-transition: -webkit-transform 0.25s linear;
-    -moz-transition: -moz-transform 0.25s linear;
-    -o-transition: -o-transform 0.25s linear;
-    transition: transform 0.25s linear;
-}
-
-.drawer.active {
-    -webkit-transform: translate3d(0, 129px, 0);
-    -moz-transform: translate3d(0, 129px, 0);
-    -o-transform: translate3d(0, 129px, 0);
-    transform: translate3d(0, 129px, 0);
-}
-
-/* Fallbacks */
-
-.no-csstransforms .top {
-    position: static;
-}
-
-.no-csstransforms .drawer nav {
-    display: none;
-}
-
-.no-csstransforms .drawer.active nav {
+.dropdown-content.show {
     display: block;
+}
+
+.badge {
+    color: #ffffff;
 }

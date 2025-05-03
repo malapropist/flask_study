@@ -6,12 +6,18 @@ from flask_sqlalchemy import SQLAlchemy
 from os.path import join, dirname, realpath
 from flask_login import LoginManager
 from flask_apscheduler import APScheduler
+from flask_limiter import Limiter
+from flask_limiter.util import get_remote_address
 from datetime import datetime
 
 db = SQLAlchemy()
 DB_NAME = "database.db"
 
 scheduler = APScheduler()
+limiter = Limiter(
+    key_func=get_remote_address,
+    default_limits=["200 per day", "50 per hour"]
+)
 
 def create_app():
     app = Flask(__name__)
@@ -22,6 +28,7 @@ def create_app():
     # Database configuration
     app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{DB_NAME}'
     db.init_app(app)
+    limiter.init_app(app)
 
     @app.route('/favicon.ico')
     def favicon():
