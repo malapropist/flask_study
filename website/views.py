@@ -117,7 +117,7 @@ def add_note():
 
 @views.route('/verses/<int:note_id>', methods=['GET', 'POST'])
 @login_required
-@limiter.limit("10 per minute")  # Limit to 10 attempts per minute
+@limiter.limit("30 per minute")  # Limit to 10 attempts per minute
 def practice_verse(note_id):
     verse_test = Verse_Test(current_user=current_user, note_id=note_id)
 

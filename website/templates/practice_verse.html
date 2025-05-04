@@ -23,8 +23,12 @@
                     <form method="POST" class="verse-form">
                         <div class="form-group">
                             <label for="answer">Complete the verse:</label>
-                            <textarea class="form-control" id="answer" name="answer" rows="3"
-                                placeholder="Enter your answer here..." required></textarea>
+                            <div id="answer-container" class="position-relative">
+                                <textarea class="form-control" id="answer" name="answer" rows="3"
+                                    placeholder="Enter your answer here..." required></textarea>
+                                <div id="illusion-word" class="position-absolute" style="pointer-events: none;">
+                                </div>
+                            </div>
                         </div>
                         <div class="text-center">
                             <button type="submit" id="submit-verse" class="btn btn-primary">
@@ -54,24 +58,5 @@
 {% endblock %}
 
 {% block javascript %}
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const answerTextarea = document.getElementById('answer');
-        if (answerTextarea) {
-            answerTextarea.focus();
-        }
-    });
-
-    document.addEventListener('DOMContentLoaded', function () {
-        const verseInput = document.getElementById('answer');
-        const submitButton = document.getElementById('submit-verse');
-
-        verseInput.addEventListener('keypress', function (event) {
-            if (event.key === 'Enter') {
-                event.preventDefault(); // Prevent default form submission
-                submitButton.click(); // Trigger the submit button click
-            }
-        });
-    });
-</script>
+<script src="{{ url_for('static', filename='js/practice_verse.js') }}"></script>
 {% endblock %}
