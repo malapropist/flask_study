@@ -92,9 +92,9 @@ function matchTextareaSize() {
 
         // Position absolutely over textarea
         const textareaRect = textarea.getBoundingClientRect();
-        illusionWord.style.position = 'block';
-        illusionWord.style.top = `100px`;
-        illusionWord.style.left = `100px`;
+        illusionWord.style.position = 'absolute';
+        illusionWord.style.top = `0px`;
+        illusionWord.style.left = `0px`;
         illusionWord.style.width = `${textareaRect.width}px`;
         illusionWord.style.height = `${textareaRect.height}px`;
         console.log("value: ", illusionWord.textContent);
