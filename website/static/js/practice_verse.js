@@ -75,11 +75,14 @@
 function matchTextareaSize() {
     const textarea = document.getElementById('answer');
     const illusionWord = document.getElementById('illusion-word');
+    // Check if text is more than 3 rows
+
     if (textarea && illusionWord) {
         // Copy text content
         illusionWord.textContent = textarea.value;
 
         // Match size and position
+
         const textareaStyle = window.getComputedStyle(textarea);
         illusionWord.style.width = textareaStyle.width;
         illusionWord.style.height = textareaStyle.height;
@@ -90,11 +93,15 @@ function matchTextareaSize() {
         illusionWord.style.whiteSpace = 'pre-wrap';
         illusionWord.style.color = 'red';
 
+        const lineHeight = parseFloat(textareaStyle.lineHeight);
+        const textareaHeighter = textarea.scrollHeight;
+        const numRows = textareaHeighter / lineHeight;
+        console.log(lineHeight, textareaHeighter, numRows);
         // Position absolutely over textarea
         const textareaRect = textarea.getBoundingClientRect();
         illusionWord.style.position = 'absolute';
-        illusionWord.style.top = `0px`;
-        illusionWord.style.left = `0px`;
+        illusionWord.style.top = `1px`;
+        illusionWord.style.left = `1px`;
         illusionWord.style.width = `${textareaRect.width}px`;
         illusionWord.style.height = `${textareaRect.height}px`;
         console.log("value: ", illusionWord.textContent);
