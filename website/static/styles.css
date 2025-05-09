@@ -70,6 +70,18 @@ body {
     color: var(--accent-green);
 }
 
+/* Group members list styling */
+.group-members-list .list-group-item {
+    background-color: rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid rgba(100, 255, 218, 0.1);
+    margin-bottom: 2px;
+    transition: background-color 0.2s ease;
+}
+
+.group-members-list .list-group-item:hover {
+    background-color: rgba(0, 0, 0, 0.2);
+}
+
 /* Form Styling */
 .form-control {
     background-color: var(--secondary-dark);
@@ -113,6 +125,8 @@ body {
     border-color: #4cd8b2;
     transform: translateY(-2px);
 }
+
+
 
 /* Verse Button Specific Styling */
 .btn-outline-primary i.fa {
@@ -436,13 +450,6 @@ a:hover {
     margin: 0 auto;
 }
 
-.verse-form textarea {
-    font-size: 1.1rem;
-    line-height: 1.6;
-    padding: 1rem;
-    resize: vertical;
-    min-height: 100px;
-}
 
 .result-message {
     animation: fadeIn 0.5s ease;
@@ -543,4 +550,14 @@ div.dropdown ul li {
 
 .badge {
     color: #ffffff;
+}
+
+#answer-container {
+    position: relative;
+
+}
+
+#answer {
+    opacity: 0;
+    height: 0px;
 }

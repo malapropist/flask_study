@@ -12,7 +12,7 @@
                 <div class="card-body">
                     <div class="verse-display mb-4">
                         <h4 class="text-center mb-3">{{ verse_info.reference }}</h4>
-                        <div class="verse-text-dark">
+                        <div class="verse-text-dark" id="verse-text">
                             {{ verse_info.verse }}
                         </div>
                         <div class="text-center mt-2">
@@ -23,7 +23,7 @@
                     <form method="POST" class="verse-form">
                         <div class="form-group">
                             <label for="answer">Complete the verse:</label>
-                            <div id="answer-container" class="position-relative">
+                            <div id="answer-container">
                                 <textarea class="form-control" id="answer" name="answer" rows="3"
                                     placeholder="Enter your answer here..." required></textarea>
                                 <div id="illusion-word" class="position-absolute" style="pointer-events: none;">

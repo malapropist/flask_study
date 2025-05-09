@@ -91,6 +91,19 @@
                     }, 150); // Wait for fade out animation to complete
                 }, 5000);
             });
+
+            // Add Enter key form submission
+            document.querySelectorAll('form').forEach(function (form) {
+                form.addEventListener('keypress', function (e) {
+                    // Check if Enter key is pressed and it's not inside a textarea
+                    if (e.key === 'Enter' && e.target.tagName.toLowerCase() !== 'textarea') {
+                        // Prevent default Enter key behavior
+                        e.preventDefault();
+                        // Submit the form
+                        form.submit();
+                    }
+                });
+            });
         });
     </script>
     {% endblock %}
