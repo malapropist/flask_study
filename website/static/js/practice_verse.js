@@ -23,7 +23,6 @@ function matchTextareaSize() {
         // Copy text content
         illusionWord.textContent = textarea.value;
         const originalText = originalVerseText;
-        // console.log(textarea.value.length);
         console.log(originalText);
         verseText.textContent = textarea.value + originalText.substring(textarea.value.length);
 
@@ -52,6 +51,16 @@ function focusTextarea() {
     const textarea = document.getElementById('answer');
     if (textarea) {
         textarea.focus();
+
+        textarea.addEventListener('keydown', function (e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                const form = textarea.closest('form');
+                if (form) {
+                    form.submit();
+                }
+            }
+        });
     }
 }
 

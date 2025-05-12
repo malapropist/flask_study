@@ -560,4 +560,9 @@ div.dropdown ul li {
 #answer {
     opacity: 0;
     height: 0px;
+
+}
+
+#illusion-word {
+    color: transparent;
 }

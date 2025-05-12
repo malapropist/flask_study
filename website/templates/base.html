@@ -71,6 +71,7 @@
 
     {% block javascript %}
     <script type="text/javascript">
+        console.log("Base.html loaded");
         function deleteNote(noteId) {
             fetch("/delete-note", {
                 method: "POST",
