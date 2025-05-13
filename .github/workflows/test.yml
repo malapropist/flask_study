@@ -3,7 +3,7 @@ name: test app
 
 on:
   schedule:
-    - cron: '* * * * *'  # Runs every minute
+    - cron: '*/6 * * * *'  # Runs every minute
 
 jobs:
   say-hello:
