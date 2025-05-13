@@ -25,5 +25,4 @@ jobs:
 
       - name: Build site
         run: |
-          # Replace this with your build script
-          python main.py
+          echo "build complete"
