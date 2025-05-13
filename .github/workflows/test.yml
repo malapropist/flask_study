@@ -1,0 +1,13 @@
+name: test app
+
+
+on:
+  schedule:
+    - cron: '*/6 * * * *'  # Runs every minute
+
+jobs:
+  say-hello:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print greeting
+        run: echo "Hello from the minutely scheduled workflow!"
